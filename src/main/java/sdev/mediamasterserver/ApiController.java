@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -31,7 +29,6 @@ public class ApiController {
 
 
     // ****************************** MOVIE AND TV METHODS ******************************
-
     // Search methods
     @GetMapping("/searchmovie/{query}")
     public ResponseEntity<String> searchMovie(@PathVariable String query) {
@@ -41,14 +38,12 @@ public class ApiController {
                 .queryParam("query", query)
                 .build()
                 .toUriString();
-
         String response = restClient.get()
                 .uri(url)
                 .header("Accept", "application/json")
                 .header("Authorization", "Bearer " + tmdbApiKey)
                 .retrieve()
                 .body(String.class);
-
         return ResponseEntity.ok()
                 .header("Content-Type", "application/json")
                 .body(response);
@@ -81,43 +76,105 @@ public class ApiController {
                 .queryParam("", id)
                 .build()
                 .toUriString();
-
         String response = restClient.get()
                 .uri(url)
                 .header("Accept", "application/json")
                 .header("Authorization", "Bearer " + tmdbApiKey)
                 .retrieve()
                 .body(String.class);
-
         return ResponseEntity.ok()
                 .header("Content-Type", "application/json")
                 .body(response);
     }
+
     @GetMapping("/tv/{id}")
     public ResponseEntity<String> getTV(@PathVariable String id) {
         String url = UriComponentsBuilder
                 .fromUri(URI.create("https://api.themoviedb.org/3/tv/" + id))
                 .build()
                 .toUriString();
-
         String response = restClient.get()
                 .uri(url)
                 .header("Accept", "application/json")
                 .header("Authorization", "Bearer " + tmdbApiKey)
                 .retrieve()
                 .body(String.class);
-
         return ResponseEntity.ok()
                 .header("Content-Type", "application/json")
                 .body(response);
     }
 
+    // ****************************** BOOK METHODS ******************************
+    @GetMapping("/searchbook/{query}")
+    public ResponseEntity<String> searchBook(@PathVariable String query) {
+        // Call the tmdb api to get search results
+        String url = UriComponentsBuilder
+                .fromUri(URI.create("https://openlibrary.org/search.json?"))
+                .queryParam("q", query)
+                .queryParam("limit", 5)
+                .build()
+                .toUriString();
+        String response = restClient.get()
+                .uri(url)
+                .header("Accept", "application/json")
+                .retrieve()
+                .body(String.class);
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/json")
+                .body(response);
+    }
 
+    @GetMapping("/book/{id}")
+    public ResponseEntity<String> getBook(@PathVariable String id) {
+        String url = UriComponentsBuilder
+                .fromUri(URI.create("https://openlibrary.org/works/" + id + ".json"))
+                .build()
+                .toUriString();
+        String response = restClient.get()
+                .uri(url)
+                .header("Accept", "application/json")
+                .retrieve()
+                .body(String.class);
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/json")
+                .body(response);
+    }
 
+    // ****************************** GAMES METHODS ******************************
+    @GetMapping("/searchgame/{query}")
+    public ResponseEntity<String> searchGame(@PathVariable String query) {
+        String url = UriComponentsBuilder
+                .fromUri(URI.create("https://api.rawg.io/api/games"))
+                .queryParam("search", query)
+                .queryParam("page_size", 5)
+                .queryParam("key", rawgApiKey)
+                .build()
+                .toUriString();
+        String response = restClient.get()
+                .uri(url)
+                .retrieve()
+                .body(String.class);
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/json")
+                .body(response);
+    }
+    @GetMapping("/game/{id}")
+    public ResponseEntity<String> getGame(@PathVariable String id) {
+        String url = UriComponentsBuilder
+                .fromUri(URI.create("https://api.rawg.io/api/games/" + id))
+                .queryParam("key", rawgApiKey)
+                .build()
+                .toUriString();
+        String response = restClient.get()
+                .uri(url)
+                .retrieve()
+                .body(String.class);
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/json")
+                .body(response);
+    }
 
-    // TODO: Get book
-
-    // TODO: Get game
+    // ****************************** USER ENDPOINTS ******************************
 
     // TODO: Get media list?
 
