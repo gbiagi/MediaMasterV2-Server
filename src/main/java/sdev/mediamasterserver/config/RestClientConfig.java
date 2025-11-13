@@ -1,4 +1,4 @@
-package sdev.mediamasterserver;
+package sdev.mediamasterserver.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
