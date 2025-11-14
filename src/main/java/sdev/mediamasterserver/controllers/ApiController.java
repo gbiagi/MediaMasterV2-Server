@@ -1,5 +1,6 @@
 package sdev.mediamasterserver.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/mmserver")
+@RequiredArgsConstructor
 public class ApiController {
 	@Value("${tmdb_key}")
 	private String tmdbApiKey;
@@ -169,13 +171,6 @@ public class ApiController {
 	}
 
 	// ****************************** USER ENDPOINTS ******************************
-
-	// TODO: Create user / register
-    @PostMapping("/createuser")
-    public ResponseEntity<String> createUser(@RequestParam String username, @RequestParam String password) {
-        return ResponseEntity.ok()
-                .body(".");
-    }
 
 	// TODO: Login check
 

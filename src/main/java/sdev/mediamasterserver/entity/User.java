@@ -1,38 +1,67 @@
 package sdev.mediamasterserver.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "mediamaster_data")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "user_id", nullable = false)
+    private Integer id;
 
-    private String username;
-    private String password;
+    @Column(name = "user_name")
+    private String userName;
 
-    public void setId(Long id) {
-        this.id = id;
+    @Column(name = "user_email", nullable = false)
+    private String userEmail;
+
+    @Column(name = "user_password")
+    private String userPassword;
+
+    @ColumnDefault("'public'")
+    @Column(name = "user_role", nullable = false, length = 50)
+    private String userRole;
+
+    public String getUserRole() {
+        return userRole;
     }
 
-    public Long getId() {
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

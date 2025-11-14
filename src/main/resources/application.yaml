@@ -6,6 +6,16 @@ spring:
   config:
     activate:
       on-profile: "dev"
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mediamaster
+    username: mmserver
+    password: superloca
+    driver-class-name: org.postgresql.Driver
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
 server:
   port: 3000
-
